@@ -1,8 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://bqwgha5b4y22g"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_pmgyh"]
+[ext_resource type="PackedScene" uid="uid://br4t31eo4ocb4" path="res://Nodes/Character/Base/character.tscn" id="1_nb36t"]
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_vasul"]
+[sub_resource type="PlaneMesh" id="PlaneMesh_pmgyh"]
 
 [node name="Game" type="Node3D"]
 
@@ -15,12 +15,4 @@ mesh = SubResource("PlaneMesh_pmgyh")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
 transform = Transform3D(0.783075, 0.510404, -0.355361, 0, 0.571387, 0.820681, 0.621927, -0.642655, 0.447439, 0, 5.25376, 0)
 
-[node name="Charakter" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Charakter"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985639, 0)
-mesh = SubResource("CapsuleMesh_vasul")
-
-[node name="Camera3D" type="Camera3D" parent="Charakter"]
-transform = Transform3D(1, 0, 0, 0, 0.837519, 0.546409, 0, -0.546409, 0.837519, 0, 3.79285, 4.26108)
-current = true
+[node name="Character" parent="." instance=ExtResource("1_nb36t")]

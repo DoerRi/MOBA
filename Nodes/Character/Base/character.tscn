@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://br4t31eo4ocb4"]
+
+[ext_resource type="Script" path="res://Nodes/Character/Base/charakter.gd" id="1_enp1y"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vasul"]
+
+[node name="Character" type="Node3D"]
+script = ExtResource("1_enp1y")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985639, 0)
+mesh = SubResource("CapsuleMesh_vasul")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.837519, 0.546409, 0, -0.546409, 0.837519, 0, 3.79285, 4.26108)
+current = true
