@@ -15,4 +15,7 @@ mesh = SubResource("PlaneMesh_pmgyh")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
 transform = Transform3D(0.783075, 0.510404, -0.355361, 0, 0.571387, 0.820681, 0.621927, -0.642655, 0.447439, 0, 5.25376, 0)
 
+[node name="CSGBox3D" type="CSGBox3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.32217)
+
 [node name="Character" parent="." instance=ExtResource("1_nb36t")]
