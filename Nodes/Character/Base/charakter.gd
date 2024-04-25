@@ -15,13 +15,15 @@ signal changed_path(path:Array[Vector3])
 
 var items:Array
 
+var current_effects:Array[Effect]
 
 
 func _ready() -> void:
 	pass # Replace with function body.
 
-
+signal updated(float)
 func _process(delta: float) -> void:
+	emit_signal("updated",delta)
 	if path.size()>0:
 		moveing(delta)
 	pass
@@ -33,24 +35,6 @@ func moveing(delta:float):
 		path.pop_front()
 	pass
 
-var _ray_cast_result
-func _physics_process(delta: float) -> void:
-	return
-	var RAY_LENGTH = 10000
-	var space_state = get_world_3d().direct_space_state
-	var cam:Camera3D = $Camera3D
-	var mousepos = get_viewport().get_mouse_position()
-
-	var origin = cam.project_ray_origin(mousepos)
-	var end = origin + cam.project_ray_normal(mousepos) * RAY_LENGTH
-	var query = PhysicsRayQueryParameters3D.create(origin, end)
-	query.collide_with_areas = true
-	query.collide_with_bodies = true
-
-	var _ray_cast_result = space_state.intersect_ray(query)
-	#print(space_state.intersect_ray(query))
-	if _ray_cast_result.size()>0:
-		print(_ray_cast_result," ",randf())
 
 
 
@@ -70,6 +54,8 @@ func reset_path():#DONE
 
 
 
+
+
 class Stat:
 	var start:float
 	var normal:float
@@ -78,3 +64,33 @@ class Stat:
 		self.start=start
 		self.normal=start
 		self.current=start
+enum EffectTypen{
+	Slowed,
+	Healing
+}
+
+class Effect:
+	var on:Character
+	var type:EffectTypen
+	var timer:float
+	var value:float
+	signal effect_started
+	signal effect_ended
+	func _init(on:Character,type:EffectTypen,timer:float,value:float) -> void:
+		if on == null||timer<0:
+			return
+		self.on=on
+		self.type=type
+		self.timer=timer
+		self.value=value
+		on.connect("updated",Callable(self,"update"))
+		on.current_effects.append(self)
+		emit_signal("effect_started")
+		update(0)
+	func update(delta:float):
+		timer-=delta
+		if timer<=0:
+			emit_signal("effect_ended")
+			on.current_effects.erase(self)
+		#TODO: active-effects effects
+
