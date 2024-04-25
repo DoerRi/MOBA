@@ -1,16 +1,28 @@
-[gd_scene load_steps=3 format=3 uid="uid://br4t31eo4ocb4"]
+[gd_scene load_steps=4 format=3 uid="uid://br4t31eo4ocb4"]
 
 [ext_resource type="Script" path="res://Nodes/Character/Base/charakter.gd" id="1_enp1y"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_l60qe"]
+height = 1.80672
+radius = 0.690307
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_vasul"]
 
 [node name="Character" type="Node3D"]
 script = ExtResource("1_enp1y")
 
+[node name="hitbox" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="hitbox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07845, 0)
+shape = SubResource("CylinderShape3D_l60qe")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985639, 0)
 mesh = SubResource("CapsuleMesh_vasul")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866026, 0.5, 0, -0.5, 0.866026, 0, 5, 8)
+transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 10, 5)
+projection = 1
 current = true
+size = 25.444

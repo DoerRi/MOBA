@@ -1,16 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqwgha5b4y22g"]
+[gd_scene load_steps=6 format=3 uid="uid://bqwgha5b4y22g"]
 
 [ext_resource type="PackedScene" uid="uid://br4t31eo4ocb4" path="res://Nodes/Character/Base/character.tscn" id="1_nb36t"]
+[ext_resource type="Script" path="res://Nodes/Player/Controll/PlayerControll.gd" id="2_mq57t"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_dnd4d"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pmgyh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b8olh"]
 
 [node name="Game" type="Node3D"]
 
 [node name="World" type="Node3D" parent="."]
 
+[node name="Ground" type="Area3D" parent="World"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Ground"]
+shape = SubResource("WorldBoundaryShape3D_dnd4d")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
-transform = Transform3D(2.48663, 0, 0, 0, 1, 0, 0, 0, 2.97744, 0, 0, 0.00118589)
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0.00118589)
 mesh = SubResource("PlaneMesh_pmgyh")
+surface_material_override/0 = SubResource("StandardMaterial3D_b8olh")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
 transform = Transform3D(0.783075, 0.510404, -0.355361, 0, 0.571387, 0.820681, 0.621927, -0.642655, 0.447439, 0, 5.25376, 0)
@@ -19,3 +32,9 @@ transform = Transform3D(0.783075, 0.510404, -0.355361, 0, 0.571387, 0.820681, 0.
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.32217)
 
 [node name="Character" parent="." instance=ExtResource("1_nb36t")]
+
+[node name="PlayerControll" type="Node3D" parent="Character"]
+script = ExtResource("2_mq57t")
+
+[node name="Character2" parent="." instance=ExtResource("1_nb36t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81808, 0, 0)
