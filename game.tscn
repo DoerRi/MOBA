@@ -35,6 +35,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.32217)
 
 [node name="PlayerControll" type="Node3D" parent="Character"]
 script = ExtResource("2_mq57t")
-
-[node name="Character2" parent="." instance=ExtResource("1_nb36t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.81808, 0, 0)

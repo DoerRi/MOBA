@@ -13,7 +13,13 @@ var armor:Stat
 var path:Array[Vector3]
 signal changed_path(path:Array[Vector3])
 
-var items:Array
+
+signal gained_item(item:Item)
+signal removed_item(item:Item)
+const MAX_ITEMCOUNT:int=6
+const ABILITYCOUNT:int=4
+var items:Array[Item]#max size= 10 4 abilitys and 6 normal items
+#NOTE: Abbilitys are represented as items
 
 signal new_effect_started
 signal effect_ended
@@ -22,6 +28,8 @@ var current_effects:Array[Effect]
 
 
 func _ready() -> void:
+
+
 	pass # Replace with function body.
 
 signal updated(float)
@@ -36,7 +44,6 @@ func moveing(delta:float):
 	else:
 		position=path[0]
 		path.pop_front()
-	pass
 
 
 
@@ -60,6 +67,19 @@ func effect_end():
 	emit_signal("effect_ended")
 
 
+func add_item(item:Item):
+	#TODO: add stat changes
+	if items.size()>=MAX_ITEMCOUNT+MAX_ITEMCOUNT:
+		return
+	items.push_back(item)
+	emit_signal("gained_item",item)
+func remove_item(itemtype:ItemTypen):
+	#TODO:  remove stat changes
+	for x in items.size():
+		if items[x].type==itemtype:
+			items.remove_at(x)
+			return
+	pass
 
 
 class Stat:
@@ -101,5 +121,35 @@ class Effect:
 			emit_signal("effect_ended")
 			on.current_effects.erase(self)
 			on.effect_end()
+			on=null
 		#TODO: active-effects effects
+
+enum ItemTypen{
+	item1,
+	item2
+}
+
+class Item:
+	var type:ItemTypen
+	var extra_health:Stat
+	var extra_speed:Stat
+	var extra_armor:Stat
+	var cooldown:Stat=Stat.new(0)
+	var effect:EffectPlan
+
+	func _init(on:Character, type:ItemTypen) -> void:
+		if on==null:
+			return
+		self.type=type
+		#TODO: load values (stats & effects & cooldown & usw.)
+		on.connect("updated",Callable(self,"update"))
+		on.add_item(self)
+	func update(delta:float):
+		cooldown.current-=delta
+		pass
+
+## This class holds the data for generating a effect
+class EffectPlan:
+	pass
+
 
