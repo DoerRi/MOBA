@@ -15,7 +15,10 @@ signal changed_path(path:Array[Vector3])
 
 var items:Array
 
+signal new_effect_started
+signal effect_ended
 var current_effects:Array[Effect]
+
 
 
 func _ready() -> void:
@@ -51,7 +54,10 @@ func reset_path():#DONE
 	path.clear()
 	emit_signal("changed_path",path)
 
-
+func new_effect():
+	emit_signal("new_effect_started")
+func effect_end():
+	emit_signal("effect_ended")
 
 
 
@@ -64,11 +70,12 @@ class Stat:
 		self.start=start
 		self.normal=start
 		self.current=start
+
+
 enum EffectTypen{
 	Slowed,
 	Healing
 }
-
 class Effect:
 	var on:Character
 	var type:EffectTypen
@@ -86,11 +93,13 @@ class Effect:
 		on.connect("updated",Callable(self,"update"))
 		on.current_effects.append(self)
 		emit_signal("effect_started")
+		on.new_effect()
 		update(0)
 	func update(delta:float):
 		timer-=delta
 		if timer<=0:
 			emit_signal("effect_ended")
 			on.current_effects.erase(self)
+			on.effect_end()
 		#TODO: active-effects effects
 

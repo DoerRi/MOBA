@@ -21,6 +21,10 @@ shape = SubResource("CylinderShape3D_l60qe")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.985639, 0)
 mesh = SubResource("CapsuleMesh_vasul")
 
+[node name="SubViewport" type="SubViewport" parent="."]
+canvas_item_default_texture_filter = 0
+size = Vector2i(16, 16)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.5, 0.866025, 0, -0.866025, 0.5, 0, 10, 5)
 projection = 1
