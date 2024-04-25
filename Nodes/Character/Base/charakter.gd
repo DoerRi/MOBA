@@ -4,7 +4,7 @@ class_name Character
 var type:String
 
 var health:Stat
-var speed:Stat
+var speed:Stat=Stat.new(10)
 var armor:Stat
 
 
@@ -22,6 +22,16 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if path.size()>0:
+		moveing(delta)
+	controll(delta)
+	pass
+func moveing(delta:float):
+	if position.distance_to(path[0])>delta*speed.current:
+		position+=(path[0]-position).normalized()*delta*speed.current
+	else:
+		position=path[0]
+		path.pop_front()
 	pass
 
 var _ray_cast_result
@@ -38,14 +48,24 @@ func _physics_process(delta: float) -> void:
 	query.collide_with_bodies = true
 
 	var _ray_cast_result = space_state.intersect_ray(query)
-	print(space_state.intersect_ray(query))
-	print(_ray_cast_result)
+	#print(space_state.intersect_ray(query))
+	#print(_ray_cast_result)
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_released("AddPath"):
-		#add_path(_ray_cast_result.postion)
-		pass
+func controll(delta:float):
+	if Input.is_action_just_released("Mouse_Left"):
+		var cam:Camera3D = $Camera3D
+		var mousepos = get_viewport().get_mouse_position()
+
+		var origin = cam.project_ray_origin(mousepos)#-position
+		var normal = cam.project_ray_normal(mousepos)
+
+		var k:float=-origin.y/normal.y
+		var pos:Vector3=Vector3(k*normal.x+origin.x,0,k*normal.z+origin.z)
+		if Input.is_action_pressed("Shift"):
+			add_path(pos)
+		else:
+			set_path(pos)
 
 
 
